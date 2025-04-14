@@ -1,9 +1,7 @@
 {
-  pkgs ? import <nixpkgs> {
-    config = { };
-    overlays = [ ];
-  },
-  lib ? pkgs.lib,
+  pkgs,
+  lib,
+  ...
 }:
 let
   inherit (lib)

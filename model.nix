@@ -13,27 +13,27 @@ let
     attrsOf
     list
     nullOr
-    string
+    str
     submodule
     ;
 
-  option = t: nullOr;
+  option = t: nullOr t;
   optionalAttrs = t: option (attrsOf t);
-  urlType = string;
+  urlType = str;
 
   optionalStruct = as: optionalAttrs (submodule as);
 in
 {
   options.project-models = {
     name = mkOption {
-      type = option string;
+      type = option str;
       default = null;
     };
     metadata = mkOption {
       type = optionalStruct {
         options = {
           sumamry = lib.mkOption {
-            type = option string;
+            type = option str;
             default = null;
           };
         };
@@ -44,6 +44,6 @@ in
 
   config = {
     project-models.name = "hello";
-    project-models.metadata.summary = 123;
+    project-models.metadata.summary = "hello";
   };
 }

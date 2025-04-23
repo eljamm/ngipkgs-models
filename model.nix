@@ -65,16 +65,10 @@ let
 in
 {
   options.projects.Omnom = {
-    name = mkOption {
-      type = option str;
-      default = null;
-    };
+    name = optional str;
     metadata = mkOption {
       type = optionalStruct {
-        summary = mkOption {
-          type = option str;
-          default = null;
-        };
+        summary = optional str;
         subgrants = mkOption {
           type = either (listOf str) subgrantType;
           default = null;

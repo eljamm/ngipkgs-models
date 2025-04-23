@@ -25,7 +25,7 @@ let
   optionalStruct = as: optionalAttrs (submodule as);
 in
 {
-  options.project-models = {
+  options.projects.Omnom = {
     name = mkOption {
       type = option str;
       default = null;
@@ -43,7 +43,7 @@ in
     };
   };
 
-  config.Omnom = {
+  config.projects.Omnom = {
     metadata = {
       summary = "Omnom is a webpage bookmarking and snapshotting service.";
       subgrants = [

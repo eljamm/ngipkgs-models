@@ -21,7 +21,7 @@ in
 rec {
   sources.nixpkgs = nixpkgs;
 
-  model = import ./model.nix { inherit pkgs lib; };
+  model = import ./model.nix { inherit pkgs lib sources; };
 
   nixosModules = import "${sources.nixpkgs}/nixos/modules/module-list.nix";
 

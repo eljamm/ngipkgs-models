@@ -1,6 +1,7 @@
 {
-  pkgs,
   lib,
+  pkgs,
+  sources,
   ...
 }:
 let
@@ -42,8 +43,22 @@ in
     };
   };
 
-  config = {
-    project-models.name = "hello";
-    project-models.metadata.summary = "hello";
+  config.Omnom = {
+    metadata = {
+      summary = "Omnom is a webpage bookmarking and snapshotting service.";
+      subgrants = [
+        "omnom"
+        "omnom-ActivityPub"
+      ];
+    };
+
+    nixos.modules.services.omnom = {
+      module = "${sources.inputs.nixpkgs}/nixos/modules/services/misc/omnom.nix";
+      examples.base = {
+        module = ./example.nix;
+        description = "Basic Omnom configuration, mainly used for testing purposes";
+        tests.basic = null;
+      };
+    };
   };
 }

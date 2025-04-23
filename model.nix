@@ -12,12 +12,12 @@ let
   inherit (lib.types)
     attrs
     attrsOf
+    either
     list
+    listOf
     nullOr
     str
     submodule
-    either
-    listOf
     ;
 
   option = type: nullOr type;

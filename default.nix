@@ -1,27 +1,16 @@
 {
-  nixpkgs ? <nixpkgs>,
-  pkgs ? import nixpkgs {
+  sources ? {
+    nixpkgs = <nixpkgs>;
+  },
+  pkgs ? import sources.nixpkgs {
     config = { };
     overlays = [ ];
   },
   system ? builtins.currentSystem,
-  lib ? import "${nixpkgs}/lib",
+  lib ? import "${sources.nixpkgs}/lib",
 }:
-let
-  nixosSystem =
-    args:
-    import (<nixpkgs> + "/nixos/lib/eval-config.nix") (
-      {
-        inherit lib;
-        system = null;
-      }
-      // args
-    );
-in
 rec {
-  sources.nixpkgs = nixpkgs;
-
-  model = import ./model.nix { inherit pkgs lib sources; };
+  models = import ./model.nix { inherit pkgs lib sources; };
 
   nixosModules = import "${sources.nixpkgs}/nixos/modules/module-list.nix";
 
@@ -42,18 +31,9 @@ rec {
         }
       ]
       ++ nixosModules
-      ++ [ model ];
+      ++ [ models ];
     specialArgs = {
       modulesPath = "${sources.nixpkgs}/nixos/modules";
     };
-  };
-  project = nixosSystem {
-    system = null;
-    modules = [
-      ./model.nix
-      {
-        nixpkgs.hostPlatform.system = "x86_64-linux";
-      }
-    ];
   };
 }

@@ -30,15 +30,19 @@ let
     options = {
       Commons = mkOption {
         type = listOf str;
+        default = [ ];
       };
       Core = mkOption {
         type = listOf str;
+        default = [ ];
       };
       Entrust = mkOption {
         type = listOf str;
+        default = [ ];
       };
       Review = mkOption {
         type = listOf str;
+        default = [ ];
       };
     };
   };

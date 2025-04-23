@@ -1,9 +1,11 @@
 {
-  pkgs ? import <nixpkgs> {
+  nixpkgs ? <nixpkgs>,
+  pkgs ? import nixpkgs {
     config = { };
     overlays = [ ];
   },
-  lib ? pkgs.lib,
+  system ? builtins.currentSystem,
+  lib ? import "${nixpkgs}/lib",
 }:
 let
   nixosSystem =
@@ -16,8 +18,32 @@ let
       // args
     );
 in
-{
+rec {
+  sources.nixpkgs = nixpkgs;
+
   model = import ./model.nix { inherit pkgs lib; };
+
+  nixosModules = import "${sources.nixpkgs}/nixos/modules/module-list.nix";
+
+  evaluated-modules = lib.evalModules {
+    modules = [
+      {
+        config = {
+          nixpkgs.hostPlatform = { inherit system; };
+
+          networking = {
+            domain = "invalid";
+            hostName = "options";
+          };
+
+          system.stateVersion = "23.05";
+        };
+      }
+    ] ++ nixosModules;
+    specialArgs = {
+      modulesPath = "${sources.nixpkgs}/nixos/modules";
+    };
+  };
   project = nixosSystem {
     system = null;
     modules = [

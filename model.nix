@@ -21,9 +21,7 @@ let
     ;
 
   option = type: nullOr type;
-  optionalAttrs = t: option (attrsOf t);
-  urlType = str;
-
+  optionalAttrs = type: option (attrsOf type);
   struct =
     attrs:
     option (submodule {
@@ -41,6 +39,24 @@ let
       }
     )
   );
+
+  urlType = optionalStruct {
+    # link text
+    text = mkOption {
+      type = str;
+      default = null;
+    };
+    # could be a hover/alternative text or simply a long-form description of a non-trivial resource
+    description = mkOption {
+      type = option str;
+      default = null;
+    };
+    # we may later want to do a fancy syntax check in a custom `typdef`
+    url = mkOption {
+      type = str;
+      default = null;
+    };
+  };
 in
 {
   options.projects.Omnom = {
@@ -56,6 +72,11 @@ in
         };
         subgrants = mkOption {
           type = either (listOf str) subgrantType;
+          default = null;
+        };
+        links = mkOption {
+          type = attrsOf urlType;
+          default = { };
         };
       };
       default = null;
@@ -70,6 +91,10 @@ in
           "omnom"
           "omnom-ActivityPub"
         ];
+      };
+      links.config = {
+        text = "Config File";
+        url = "https://github.com/asciimoo/omnom/blob/master/config/config.go";
       };
     };
 

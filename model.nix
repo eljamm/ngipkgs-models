@@ -16,6 +16,8 @@ let
     list
     listOf
     nullOr
+    package # TODO: rename this?
+    path
     str
     submodule
     ;
@@ -24,9 +26,9 @@ let
   optionalAttrs = type: option (attrsOf type);
   struct =
     attrs:
-    option (submodule {
+    submodule {
       options = attrs;
-    });
+    };
 
   optionalStruct = attrs: option (struct attrs);
 
@@ -57,6 +59,17 @@ let
       default = null;
     };
   };
+
+  binaryType = struct {
+    name = mkOption {
+      type = option str;
+      default = null;
+    };
+    data = mkOption {
+      type = option (either path package);
+      default = null;
+    };
+  };
 in
 {
   options.projects.Omnom = {
@@ -80,6 +93,10 @@ in
         };
       };
       default = null;
+    };
+    binary = mkOption {
+      type = attrsOf binaryType;
+      default = { };
     };
   };
 

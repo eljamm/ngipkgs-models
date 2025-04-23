@@ -26,20 +26,23 @@ rec {
   nixosModules = import "${sources.nixpkgs}/nixos/modules/module-list.nix";
 
   evaluated-modules = lib.evalModules {
-    modules = [
-      {
-        config = {
-          nixpkgs.hostPlatform = { inherit system; };
+    modules =
+      [
+        {
+          config = {
+            nixpkgs.hostPlatform = { inherit system; };
 
-          networking = {
-            domain = "invalid";
-            hostName = "options";
+            networking = {
+              domain = "invalid";
+              hostName = "options";
+            };
+
+            system.stateVersion = "23.05";
           };
-
-          system.stateVersion = "23.05";
-        };
-      }
-    ] ++ nixosModules;
+        }
+      ]
+      ++ nixosModules
+      ++ [ model ];
     specialArgs = {
       modulesPath = "${sources.nixpkgs}/nixos/modules";
     };

@@ -30,6 +30,13 @@ let
       options = attrs;
     };
 
+  optional =
+    type:
+    mkOption {
+      type = option type;
+      default = null;
+    };
+
   optionalStruct = attrs: option (struct attrs);
 
   subgrantType = optionalStruct (
@@ -44,31 +51,16 @@ let
 
   urlType = optionalStruct {
     # link text
-    text = mkOption {
-      type = str;
-      default = null;
-    };
+    text = mkOption { type = str; };
     # could be a hover/alternative text or simply a long-form description of a non-trivial resource
-    description = mkOption {
-      type = option str;
-      default = null;
-    };
+    description = optional str;
     # we may later want to do a fancy syntax check in a custom `typdef`
-    url = mkOption {
-      type = str;
-      default = null;
-    };
+    url = mkOption { type = str; };
   };
 
   binaryType = struct {
-    name = mkOption {
-      type = option str;
-      default = null;
-    };
-    data = mkOption {
-      type = option (either path package);
-      default = null;
-    };
+    name = optional str;
+    data = optional (either path package);
   };
 in
 {

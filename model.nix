@@ -32,26 +32,15 @@ let
 
   optionalStruct = attrs: option (struct attrs);
 
-  subgrantType = submodule {
-    options = {
-      Commons = mkOption {
+  subgrantType = optionalStruct (
+    lib.genAttrs [ "Commons" "Core" "Entrust" "Review" ] (
+      name:
+      mkOption {
         type = listOf str;
         default = [ ];
-      };
-      Core = mkOption {
-        type = listOf str;
-        default = [ ];
-      };
-      Entrust = mkOption {
-        type = listOf str;
-        default = [ ];
-      };
-      Review = mkOption {
-        type = listOf str;
-        default = [ ];
-      };
-    };
-  };
+      }
+    )
+  );
 in
 {
   options.projects.Omnom = {

@@ -16,6 +16,8 @@ let
     nullOr
     str
     submodule
+    either
+    listOf
     ;
 
   option = t: nullOr t;
@@ -23,6 +25,23 @@ let
   urlType = str;
 
   optionalStruct = as: optionalAttrs (submodule as);
+
+  subgrantType = submodule {
+    options = {
+      Commons = mkOption {
+        type = listOf str;
+      };
+      Core = mkOption {
+        type = listOf str;
+      };
+      Entrust = mkOption {
+        type = listOf str;
+      };
+      Review = mkOption {
+        type = listOf str;
+      };
+    };
+  };
 in
 {
   options.projects.Omnom = {
@@ -37,6 +56,9 @@ in
             type = option str;
             default = null;
           };
+          subgrants = mkOption {
+            type = either (listOf str) subgrantType;
+          };
         };
       };
       default = null;
@@ -46,10 +68,12 @@ in
   config.projects.Omnom = {
     metadata = {
       summary = "Omnom is a webpage bookmarking and snapshotting service.";
-      # subgrants = [
-      #   "omnom"
-      #   "omnom-ActivityPub"
-      # ];
+      subgrants = {
+        Core = [
+          "omnom"
+          "omnom-ActivityPub"
+        ];
+      };
     };
 
     # nixos.modules.services.omnom = {

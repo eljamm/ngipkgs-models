@@ -20,11 +20,17 @@ let
     listOf
     ;
 
-  option = t: nullOr t;
+  option = type: nullOr type;
   optionalAttrs = t: option (attrsOf t);
   urlType = str;
 
-  optionalStruct = as: optionalAttrs (submodule as);
+  struct =
+    attrs:
+    option (submodule {
+      options = attrs;
+    });
+
+  optionalStruct = attrs: option (struct attrs);
 
   subgrantType = submodule {
     options = {
@@ -54,15 +60,13 @@ in
       default = null;
     };
     metadata = mkOption {
-      type = submodule {
-        options = {
-          summary = mkOption {
-            type = option str;
-            default = null;
-          };
-          subgrants = mkOption {
-            type = either (listOf str) subgrantType;
-          };
+      type = optionalStruct {
+        summary = mkOption {
+          type = option str;
+          default = null;
+        };
+        subgrants = mkOption {
+          type = either (listOf str) subgrantType;
         };
       };
       default = null;

@@ -31,9 +31,9 @@ in
       default = null;
     };
     metadata = mkOption {
-      type = optionalStruct {
+      type = submodule {
         options = {
-          sumamry = lib.mkOption {
+          summary = mkOption {
             type = option str;
             default = null;
           };
@@ -46,19 +46,19 @@ in
   config.projects.Omnom = {
     metadata = {
       summary = "Omnom is a webpage bookmarking and snapshotting service.";
-      subgrants = [
-        "omnom"
-        "omnom-ActivityPub"
-      ];
+      # subgrants = [
+      #   "omnom"
+      #   "omnom-ActivityPub"
+      # ];
     };
 
-    nixos.modules.services.omnom = {
-      module = "${sources.inputs.nixpkgs}/nixos/modules/services/misc/omnom.nix";
-      examples.base = {
-        module = ./example.nix;
-        description = "Basic Omnom configuration, mainly used for testing purposes";
-        tests.basic = null;
-      };
-    };
+    # nixos.modules.services.omnom = {
+    #   module = "${sources.nixpkgs}/nixos/modules/services/misc/omnom.nix";
+    #   examples.base = {
+    #     module = { ... }: { };
+    #     description = "Basic Omnom configuration, mainly used for testing purposes";
+    #     tests.basic = null;
+    #   };
+    # };
   };
 }

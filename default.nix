@@ -10,13 +10,17 @@
   lib ? import "${sources.nixpkgs}/lib",
 }:
 rec {
+  inherit
+    lib
+    pkgs
+    ;
+
   models = import ./model.nix { inherit pkgs lib sources; };
 
   nixosModules = import "${sources.nixpkgs}/nixos/modules/module-list.nix";
 
   raw-projects = import ./projects {
-    inherit lib;
-    pkgs = pkgs;
+    inherit lib pkgs;
     sources = {
       inputs = sources;
     };
@@ -39,7 +43,11 @@ rec {
         }
       ]
       ++ nixosModules
-      ++ [ models ];
+      ++ [
+        {
+          inherit (raw-projects) config options;
+        }
+      ];
     specialArgs = {
       modulesPath = "${sources.nixpkgs}/nixos/modules";
     };

@@ -16,8 +16,7 @@ let
 
   inherit (lib.attrsets)
     concatMapAttrs
-    mapAttrs
-    filterAttrs
+    mapAttrsToList
     ;
 
   inherit (models)
@@ -46,6 +45,8 @@ let
     # TODO: use fileset and filter for `gitTracked` files
     concatMapAttrs names (readDir baseDirectory);
 in
-mapAttrs (
-  name: directory: mkProject name (import directory { inherit lib pkgs sources; })
-) projectDirectories
+lib.foldl lib.recursiveUpdate { } (
+  mapAttrsToList (
+    name: directory: mkProject name (import directory { inherit lib pkgs sources; })
+  ) projectDirectories
+)

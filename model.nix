@@ -6,86 +6,82 @@
 }:
 let
   inherit (lib)
+    types
     mkOption
     ;
 
-  inherit (lib.types)
-    attrs
-    attrsOf
-    either
-    list
-    listOf
-    nullOr
-    package # TODO: rename this?
-    path
-    str
-    submodule
-    ;
-
-  subgrantType = submodule {
-    options = lib.genAttrs [ "Commons" "Core" "Entrust" "Review" ] (
-      name:
-      mkOption {
-        type = listOf str;
-        default = [ ];
-      }
-    );
-  };
-
-  urlType = submodule {
-    options = {
-      # link text
-      text = mkOption { type = str; };
-      # could be a hover/alternative text or simply a long-form description of a non-trivial resource
-      description = mkOption {
-        type = nullOr str;
-        default = null;
-      };
-      # we may later want to do a fancy syntax check in a custom `typdef`
-      url = mkOption { type = str; };
+  subgrantType =
+    with types;
+    submodule {
+      options = lib.genAttrs [ "Commons" "Core" "Entrust" "Review" ] (
+        name:
+        mkOption {
+          type = listOf str;
+          default = [ ];
+        }
+      );
     };
-  };
 
-  binaryType = submodule {
-    options = {
-      name = mkOption {
-        type = nullOr str;
-        default = null;
-      };
-      data = mkOption {
-        type = nullOr (either path package);
-        default = null;
+  urlType =
+    with types;
+    submodule {
+      options = {
+        # link text
+        text = mkOption { type = str; };
+        # could be a hover/alternative text or simply a long-form description of a non-trivial resource
+        description = mkOption {
+          type = nullOr str;
+          default = null;
+        };
+        # we may later want to do a fancy syntax check in a custom `typdef`
+        url = mkOption { type = str; };
       };
     };
-  };
+
+  binaryType =
+    with types;
+    submodule {
+      options = {
+        name = mkOption {
+          type = nullOr str;
+          default = null;
+        };
+        data = mkOption {
+          type = nullOr (either path package);
+          default = null;
+        };
+      };
+    };
 in
 {
   options.projects.Omnom = {
     name = mkOption {
-      type = nullOr str;
+      type = with types; nullOr str;
       default = null;
     };
     metadata = mkOption {
-      type = submodule {
-        options = {
-          summary = mkOption {
-            type = nullOr str;
-            default = null;
-          };
-          subgrants = mkOption {
-            type = either (listOf str) subgrantType;
-            default = null;
-          };
-          links = mkOption {
-            type = attrsOf urlType;
-            default = { };
+      type =
+        with types;
+        submodule {
+          options = {
+            summary = mkOption {
+              type = nullOr str;
+              default = null;
+            };
+            subgrants = mkOption {
+              type = either (listOf str) subgrantType;
+              default = null;
+            };
+            links = mkOption {
+              type = attrsOf urlType;
+              default = { };
+            };
           };
         };
-      };
       default = null;
     };
     binary = mkOption {
-      type = attrsOf binaryType;
+      type = with types; attrsOf binaryType;
       default = { };
     };
   };

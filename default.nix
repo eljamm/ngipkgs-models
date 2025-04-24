@@ -14,6 +14,14 @@ rec {
 
   nixosModules = import "${sources.nixpkgs}/nixos/modules/module-list.nix";
 
+  raw-projects = import ./projects {
+    inherit lib;
+    pkgs = pkgs;
+    sources = {
+      inputs = sources;
+    };
+  };
+
   evaluated-modules = lib.evalModules {
     modules =
       [

@@ -20,4 +20,4 @@
   - [x] serviceType
   - [ ] programType
   - [x] exampleType
-  - [ ] testType
+  - [x] testType

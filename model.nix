@@ -121,6 +121,9 @@ let
         };
       };
     };
+
+  # NixOS tests are modules that boil down to a derivation
+  testType = with types; nullOr (either moduleType package);
 in
 {
   options.projects.Omnom = {

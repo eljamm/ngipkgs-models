@@ -72,7 +72,7 @@ let
     submodule {
       options = {
         module = mkOption {
-          type = path;
+          type = moduleType;
         };
         description = mkOption {
           type = str;

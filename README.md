@@ -1,24 +1,24 @@
 # Goal
 
-- [ ] project
+- [x] project
   - [x] name
   - [x] metadata
     - [x] summary
     - [x] subgrants
     - [x] links
-  - [ ] nixos
+  - [x] nixos
     - [x] services
     - [x] programs
-    - [ ] examples
-    - [ ] tests
+    - [x] examples
+    - [x] tests
   - [x] binary
-- [ ] types
+- [x] types
   - [x] subgrantType
   - [x] urlType
   - [x] moduleType
   - [x] binaryType
   - [x] pluginType
   - [x] serviceType
-  - [ ] programType
+  - [x] programType
   - [x] exampleType
   - [x] testType

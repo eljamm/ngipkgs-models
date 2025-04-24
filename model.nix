@@ -22,58 +22,64 @@ let
     submodule
     ;
 
-  struct =
-    attrs:
-    submodule {
-      options = attrs;
-    };
-
-  optional =
-    type:
-    mkOption {
-      type = nullOr type;
-      default = null;
-    };
-
-  optionalStruct = attrs: nullOr (struct attrs);
-
-  subgrantType = optionalStruct (
-    lib.genAttrs [ "Commons" "Core" "Entrust" "Review" ] (
+  subgrantType = submodule {
+    options = lib.genAttrs [ "Commons" "Core" "Entrust" "Review" ] (
       name:
       mkOption {
         type = listOf str;
         default = [ ];
       }
-    )
-  );
-
-  urlType = optionalStruct {
-    # link text
-    text = mkOption { type = str; };
-    # could be a hover/alternative text or simply a long-form description of a non-trivial resource
-    description = optional str;
-    # we may later want to do a fancy syntax check in a custom `typdef`
-    url = mkOption { type = str; };
+    );
   };
 
-  binaryType = struct {
-    name = optional str;
-    data = optional (either path package);
+  urlType = submodule {
+    options = {
+      # link text
+      text = mkOption { type = str; };
+      # could be a hover/alternative text or simply a long-form description of a non-trivial resource
+      description = mkOption {
+        type = nullOr str;
+        default = null;
+      };
+      # we may later want to do a fancy syntax check in a custom `typdef`
+      url = mkOption { type = str; };
+    };
+  };
+
+  binaryType = submodule {
+    options = {
+      name = mkOption {
+        type = nullOr str;
+        default = null;
+      };
+      data = mkOption {
+        type = nullOr (either path package);
+        default = null;
+      };
+    };
   };
 in
 {
   options.projects.Omnom = {
-    name = optional str;
+    name = mkOption {
+      type = nullOr str;
+      default = null;
+    };
     metadata = mkOption {
-      type = optionalStruct {
-        summary = optional str;
-        subgrants = mkOption {
-          type = either (listOf str) subgrantType;
-          default = null;
-        };
-        links = mkOption {
-          type = attrsOf urlType;
-          default = { };
+      type = submodule {
+        options = {
+          summary = mkOption {
+            type = nullOr str;
+            default = null;
+          };
+          subgrants = mkOption {
+            type = either (listOf str) subgrantType;
+            default = null;
+          };
+          links = mkOption {
+            type = attrsOf urlType;
+            default = { };
+          };
         };
       };
       default = null;

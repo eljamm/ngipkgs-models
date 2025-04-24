@@ -87,8 +87,8 @@ let
           type = nonEmtpyAttrs testType;
         };
         links = mkOption {
-          type = nullOr (attrsOf (nullOr urlType));
-          default = null;
+          type = attrsOf urlType;
+          default = { };
         };
       };
     };
@@ -122,8 +122,35 @@ let
           default = null;
         };
         links = mkOption {
-          type = nullOr (attrsOf (nullOr urlType));
+          type = attrsOf urlType;
+          default = { };
+        };
+      };
+    };
+
+  # TODO: port modular services to programs
+  programType =
+    with types;
+    submodule {
+      options = {
+        name = mkOption {
+          type = nullOr str;
           default = null;
+        };
+        module = mkOption {
+          type = moduleType;
+        };
+        examples = mkOption {
+          type = nullOr (attrsOf (nullOr exampleType));
+          default = null;
+        };
+        extensions = mkOption {
+          type = nullOr (attrsOf (nullOr pluginType));
+          default = null;
+        };
+        links = mkOption {
+          type = attrsOf urlType;
+          default = { };
         };
       };
     };
@@ -172,6 +199,10 @@ in
               type = nullOr (attrsOf (nullOr serviceType));
               default = null;
             };
+            programs = mkOption {
+              type = nullOr (attrsOf (nullOr programType));
+              default = null;
+            };
           };
         };
     };
@@ -194,6 +225,17 @@ in
 
     nixos.services.omnom = {
       module = "${sources.nixpkgs}/nixos/modules/services/misc/omnom.nix";
+      examples.base = {
+        module = { ... }: { };
+        description = "Basic Omnom configuration, mainly used for testing purposes";
+        tests = {
+          basic = null;
+        };
+      };
+    };
+
+    nixos.programs.omnom-cli = {
+      module = { ... }: { };
       examples.base = {
         module = { ... }: { };
         description = "Basic Omnom configuration, mainly used for testing purposes";

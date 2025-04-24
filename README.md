@@ -7,8 +7,8 @@
     - [x] subgrants
     - [x] links
   - [ ] nixos
-    - [ ] services
-    - [ ] programs
+    - [x] services
+    - [x] programs
     - [ ] examples
     - [ ] tests
   - [x] binary

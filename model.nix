@@ -73,11 +73,14 @@ let
         module = mkOption {
           type = moduleType;
         };
-        examples = mkOption {
-          type = nullOr (attrsOf (nullOr exampleType));
-          default = null;
-        };
-        extensions = nullOr (attrsOf (nullOr pluginType));
+        # examples = mkOption {
+        #   type = nullOr (attrsOf (nullOr exampleType));
+        #   default = null;
+        # };
+        # extensions = mkOption {
+        #   type = nullOr (attrsOf (nullOr pluginType));
+        #   default = null;
+        # };
         links = mkOption {
           type = nullOr (attrsOf (nullOr urlType));
           default = null;
@@ -116,6 +119,19 @@ in
       type = with types; attrsOf binaryType;
       default = { };
     };
+    nixos = mkOption {
+      type =
+        with types;
+        submodule {
+          options = {
+            # programs = optionalAttrs (option programType);
+            services = mkOption {
+              type = nullOr (attrsOf (nullOr serviceType));
+              default = null;
+            };
+          };
+        };
+    };
   };
 
   config.projects.Omnom = {
@@ -133,13 +149,13 @@ in
       };
     };
 
-    # nixos.modules.services.omnom = {
-    #   module = "${sources.nixpkgs}/nixos/modules/services/misc/omnom.nix";
-    #   examples.base = {
-    #     module = { ... }: { };
-    #     description = "Basic Omnom configuration, mainly used for testing purposes";
-    #     tests.basic = null;
-    #   };
-    # };
+    nixos.services.omnom = {
+      module = "${sources.nixpkgs}/nixos/modules/services/misc/omnom.nix";
+      # examples.base = {
+      #   module = { ... }: { };
+      #   description = "Basic Omnom configuration, mainly used for testing purposes";
+      #   tests.basic = null;
+      # };
+    };
   };
 }

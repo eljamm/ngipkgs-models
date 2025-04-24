@@ -7,9 +7,10 @@
     - [x] subgrants
     - [x] links
   - [ ] nixos
-    - [ ] tests
-    - [ ] modules
+    - [ ] services
+    - [ ] programs
     - [ ] examples
+    - [ ] tests
   - [x] binary
 - [ ] types
   - [x] subgrantType

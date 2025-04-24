@@ -22,8 +22,6 @@ let
     submodule
     ;
 
-  option = type: nullOr type;
-  optionalAttrs = type: option (attrsOf type);
   struct =
     attrs:
     submodule {
@@ -33,11 +31,11 @@ let
   optional =
     type:
     mkOption {
-      type = option type;
+      type = nullOr type;
       default = null;
     };
 
-  optionalStruct = attrs: option (struct attrs);
+  optionalStruct = attrs: nullOr (struct attrs);
 
   subgrantType = optionalStruct (
     lib.genAttrs [ "Commons" "Core" "Entrust" "Review" ] (

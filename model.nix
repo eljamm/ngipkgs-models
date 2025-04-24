@@ -62,7 +62,7 @@ in
     metadata = mkOption {
       type =
         with types;
-        submodule {
+        nullOr (submodule {
           options = {
             summary = mkOption {
               type = nullOr str;
@@ -77,7 +77,7 @@ in
               default = { };
             };
           };
-        };
+        });
       default = null;
     };
     binary = mkOption {

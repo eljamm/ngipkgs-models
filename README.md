@@ -16,8 +16,8 @@
   - [x] urlType
   - [x] moduleType
   - [x] binaryType
-  - [ ] pluginType
+  - [x] pluginType
   - [x] serviceType
   - [ ] programType
-  - [ ] exampleType
+  - [x] exampleType
   - [ ] testType

@@ -67,6 +67,34 @@ let
       (functionTo attrs)
     ];
 
+  exampleType =
+    with types;
+    submodule {
+      options = {
+        module = mkOption {
+          type = path;
+        };
+        description = mkOption {
+          type = str;
+        };
+        tests = mkOption {
+          type = nonEmtpyAttrs testType;
+        };
+        links = mkOption {
+          type = nullOr (attrsOf (nullOr urlType));
+          default = null;
+        };
+      };
+    };
+
+  # TODO: plugins are actually component *extensions* that are of component-specific type,
+  #       and which compose in application-specific ways defined in the application module.
+  #       we can't express that with yants, but with the module system, which gives us a bit of dependent typing.
+  #       this also means that there's no fundamental difference between programs and services,
+  #       and even languages: libraries are just extensions of compilers.
+  # TODO: implement this, now that we're using the module system
+  pluginType = with types; anything;
+
   # TODO: make use of modular services https://github.com/NixOS/nixpkgs/pull/372170
   serviceType =
     with types;
@@ -79,14 +107,14 @@ let
         module = mkOption {
           type = moduleType;
         };
-        # examples = mkOption {
-        #   type = nullOr (attrsOf (nullOr exampleType));
-        #   default = null;
-        # };
-        # extensions = mkOption {
-        #   type = nullOr (attrsOf (nullOr pluginType));
-        #   default = null;
-        # };
+        examples = mkOption {
+          type = nullOr (attrsOf (nullOr exampleType));
+          default = null;
+        };
+        extensions = mkOption {
+          type = nullOr (attrsOf (nullOr pluginType));
+          default = null;
+        };
         links = mkOption {
           type = nullOr (attrsOf (nullOr urlType));
           default = null;

@@ -53,6 +53,12 @@ let
       };
     };
 
+  nonEmtpyAttrs = lib.mkOptionType {
+    name = "nonEmtpyAttrs";
+    description = "non-empty attribute set";
+    check = x: lib.isAttrs x && x != { };
+  };
+
   moduleType =
     with types;
     oneOf [

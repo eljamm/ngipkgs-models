@@ -173,6 +173,7 @@ in
               type = nullOr str;
               default = null;
             };
+            # TODO: convert all subgrants to `subgrantType`, remove listOf
             subgrants = mkOption {
               type = either (listOf str) subgrantType;
               default = null;
@@ -194,7 +195,6 @@ in
         with types;
         submodule {
           options = {
-            # programs = optionalAttrs (option programType);
             services = mkOption {
               type = nullOr (attrsOf (nullOr serviceType));
               default = null;
@@ -228,20 +228,15 @@ in
       examples.base = {
         module = { ... }: { };
         description = "Basic Omnom configuration, mainly used for testing purposes";
-        tests = {
-          basic = null;
-        };
+        tests.basic = null;
       };
     };
-
     nixos.programs.omnom-cli = {
       module = { ... }: { };
       examples.base = {
         module = { ... }: { };
         description = "Basic Omnom configuration, mainly used for testing purposes";
-        tests = {
-          basic = null;
-        };
+        tests.basic = null;
       };
     };
   };

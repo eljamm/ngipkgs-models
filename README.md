@@ -14,10 +14,10 @@
 - [ ] types
   - [x] subgrantType
   - [x] urlType
-  - [ ] moduleType
+  - [x] moduleType
   - [x] binaryType
   - [ ] pluginType
-  - [ ] serviceType
+  - [x] serviceType
   - [ ] programType
   - [ ] exampleType
   - [ ] testType

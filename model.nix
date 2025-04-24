@@ -52,6 +52,38 @@ let
         };
       };
     };
+
+  moduleType =
+    with types;
+    oneOf [
+      path
+      attrs
+      (functionTo attrs)
+    ];
+
+  # TODO: make use of modular services https://github.com/NixOS/nixpkgs/pull/372170
+  serviceType =
+    with types;
+    submodule {
+      options = {
+        name = mkOption {
+          type = nullOr str;
+          default = null;
+        };
+        module = mkOption {
+          type = moduleType;
+        };
+        examples = mkOption {
+          type = nullOr (attrsOf (nullOr exampleType));
+          default = null;
+        };
+        extensions = nullOr (attrsOf (nullOr pluginType));
+        links = mkOption {
+          type = nullOr (attrsOf (nullOr urlType));
+          default = null;
+        };
+      };
+    };
 in
 {
   options.projects.Omnom = {

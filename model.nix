@@ -78,6 +78,7 @@ let
           type = str;
         };
         tests = mkOption {
+          # FIX: attempt to call something which is not a function but a set
           type = nonEmtpyAttrs testType;
         };
         links = mkOption {
@@ -188,11 +189,13 @@ in
 
     nixos.services.omnom = {
       module = "${sources.nixpkgs}/nixos/modules/services/misc/omnom.nix";
-      # examples.base = {
-      #   module = { ... }: { };
-      #   description = "Basic Omnom configuration, mainly used for testing purposes";
-      #   tests.basic = null;
-      # };
+      examples.base = {
+        module = { ... }: { };
+        description = "Basic Omnom configuration, mainly used for testing purposes";
+        tests = {
+          basic = null;
+        };
+      };
     };
   };
 }

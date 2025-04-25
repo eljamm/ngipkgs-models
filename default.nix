@@ -26,6 +26,8 @@ rec {
     };
   };
 
+  projects = lib.filterAttrsRecursive (n: v: v != null) evaluated-modules.config.projects;
+
   evaluated-modules = lib.evalModules {
     modules =
       [

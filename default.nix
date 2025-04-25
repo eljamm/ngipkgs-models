@@ -43,11 +43,7 @@ rec {
         }
       ]
       ++ nixosModules
-      ++ [
-        {
-          inherit (raw-projects) config options;
-        }
-      ];
+      ++ [ raw-projects ];
     specialArgs = {
       modulesPath = "${sources.nixpkgs}/nixos/modules";
     };

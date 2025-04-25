@@ -26,7 +26,11 @@ rec {
     };
   };
 
-  projects = lib.filterAttrsRecursive (n: v: v != null) evaluated-modules.config.projects;
+  # NOTE: maybe we shouldn't have empty attrs to begin with and just use null
+  # by default
+  projects = lib.filterAttrsRecursive (
+    n: v: (v != null) && (v != { })
+  ) evaluated-modules.config.projects;
 
   evaluated-modules = lib.evalModules {
     modules =
